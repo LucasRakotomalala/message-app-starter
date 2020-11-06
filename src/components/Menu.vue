@@ -3,8 +3,8 @@
         <div class="container d-flex justify-content-around">
             <i class="fas fa-user-friends fa-2x"></i>
             <i class="fas fa-phone fa-2x"></i>
-            <i v-if="unreadMessages > 0" class="fas fa-inbox fa-2x" :data-count="unreadMessages"></i>
-            <i v-else class="fas fa-inbox fa-2x"></i>
+            <i v-if="unreadMessages > 0" class="fas fa-comment-dots fa-2x badged" :data-count="unreadMessages"></i>
+            <i v-else class="fas fa-comment-dots fa-2x"></i>
             <i class="fas fa-credit-card fa-2x"></i>
             <i class="fas fa-ellipsis-h fa-2x"></i>
         </div>
@@ -14,9 +14,9 @@
 <script>
 	export default {
 		name: "Menu",
-        props: {
+    props: {
 			unreadMessages: Number,
-        }
+    }
 	}
 </script>
 
@@ -36,10 +36,10 @@
     .fas {
         line-height: inherit;
     }
-    .fas[data-count] {
+    .badged[data-count] {
         position:relative;
     }
-    .fas[data-count]:after {
+    .badged[data-count]:after {
         position: absolute;
         right: -0.5em;
         content: attr(data-count);
