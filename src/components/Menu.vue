@@ -1,26 +1,42 @@
 <template>
     <footer class="footer">
         <div class="container d-flex justify-content-around">
-            <i class="fas fa-user-friends fa-2x"></i>
+            <i role="button" class="fas fa-user-friends fa-2x" @click="seeMembers"></i>
             <i class="fas fa-phone fa-2x"></i>
-            <i v-if="unreadMessages > 0" class="fas fa-comment-dots fa-2x badged" :data-count="unreadMessages"></i>
-            <i v-else class="fas fa-comment-dots fa-2x"></i>
+            <i role="button" class="fas fa-comment-dots fa-2x" :data-count="unreadMessages" @click="seeMessages"></i>
             <i class="fas fa-credit-card fa-2x"></i>
-            <i class="fas fa-ellipsis-h fa-2x"></i>
+            <i role="button" class="fas fa-ellipsis-h fa-2x" @click="signOut"></i>
         </div>
     </footer>
 </template>
 
 <script>
+  import firebase from "firebase/app";
+  import "firebase/auth";
+
 	export default {
 		name: "Menu",
     props: {
 			unreadMessages: Number,
-    }
-	}
+    },
+    methods: {
+      signOut() {
+        firebase.auth().signOut().then(() => {
+          this.$router.push({name: 'Login'});
+          location.reload();
+        });
+      },
+      seeMembers() {
+        this.$router.push({name: 'Members'});
+      },
+      seeMessages() {
+        this.$router.push({name: 'Messages'});
+      },
+    },
+  }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
     .footer {
         position: fixed;
         bottom: 0;
@@ -36,10 +52,10 @@
     .fas {
         line-height: inherit;
     }
-    .badged[data-count] {
-        position:relative;
+    i[data-count] {
+        position: relative;
     }
-    .badged[data-count]:after {
+    i[data-count]:after {
         position: absolute;
         right: -0.5em;
         content: attr(data-count);
@@ -51,5 +67,8 @@
         text-align: center;
         width: 1.5em;
         font: bold .4em sans-serif;
+    }
+    i[data-count='0']:after {
+      visibility: hidden;
     }
 </style>
