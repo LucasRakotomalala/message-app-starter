@@ -1,18 +1,33 @@
 <template>
-  <Messages/>
+  <Errors/>
+  <div id="main-content">
+    <router-view/>
+  </div>
+  <Menu/>
 </template>
 
 <script>
-  import Messages from "./components/Messages";
+import Menu from "@/components/Menu";
+import Errors from "@/components/Errors";
 
-  export default {
+export default {
   name: "App",
   components: {
-    Messages,
+    Errors,
+    Menu,
   }
 };
 </script>
 
 <style lang="scss">
-  @import "../node_modules/bootstrap/scss/bootstrap.scss";
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
+#main-content {
+  margin-bottom: 50px;
+}
+a {
+  color: black;
+}
+a:hover {
+  color: grey;
+}
 </style>
