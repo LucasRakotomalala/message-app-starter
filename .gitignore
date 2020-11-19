@@ -1,5 +1,6 @@
 .DS_Store
 node_modules
+dist
 /dist
 
 
@@ -21,3 +22,9 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+# Firebase files and directories
+.firebase
+
+# API Credentials
+/src/api/*.credentials.js
