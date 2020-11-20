@@ -1,4 +1,5 @@
 <template>
+  <h2>Contacts</h2>
   <div class="d-block">
     <Contact v-for="currentContact in contacts" :key="currentContact.id" :contact="currentContact"/>
   </div>
@@ -10,7 +11,7 @@ export default {
   name: "Contacts",
   components: {Contact},
   created() {
-    this.$store.dispatch("setContacts");
+    this.$store.dispatch("setContacts"); // In case of refreshing contact page
   },
   computed: {
     contacts() {

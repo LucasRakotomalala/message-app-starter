@@ -1,5 +1,4 @@
-import axios from "axios";
-import {messagesUrl} from "@/api/db";
+import {messagesRef} from "@/api/firebase.api";
 
 export const messagesModule = {
 	state: {
@@ -13,10 +12,13 @@ export const messagesModule = {
 	actions: {
 		async setMessages(context) {
 			try {
-				const response = await axios.get(messagesUrl);
-				context.commit("setMessages", {messages: response.data});
+				await messagesRef.on("value", (snapshot) => {
+					context.commit("setMessages", {messages: Object.values(snapshot.val())});
+				}, (error) => {
+					context.commit("pushError", {error: error.toString()});
+				});
 			} catch (error) {
-				context.commit("pushError", {error: error.toString()});
+				context.commit("pushError", {error: "Error fetching data !"});
 			}
 		}
 	},
@@ -25,8 +27,21 @@ export const messagesModule = {
 			return state.messages.filter((message) => !message.read).length;
 		},
 		sortMessagesByDate(state) {
-			const messages = {...state}.messages;
-			return messages.sort((m1, m2) => new Date(m2.date) - new Date(m1.date));
+			return {...state}.messages.sort((m1, m2) => new Date(m2.date) - new Date(m1.date));
+		},
+		filterMessagesBySenderUId: state => senderUId => {
+			return state.messages.filter((message) => message.senderUId === senderUId);
+		},
+		filterMessagesByReceiverUId: state => receiverUId => {
+			return state.messages.filter((message) => message.receiverUId === receiverUId);
+		},
+		filterMessagesForConversation: state => receiverUId => senderUId => {
+			return state.messages.filter((message) => message.senderUID === senderUId && message.receiverUId === receiverUId || message.senderUId === receiverUId && message.receiverUId === senderUId);
+		},
+		getConversations: state => receiverUId => {
+			console.log(state);
+			console.log(receiverUId);
+			return [];
 		}
 	}
 };

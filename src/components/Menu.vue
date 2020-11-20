@@ -8,14 +8,24 @@
         <i v-else class="fas fa-inbox fa-2x"></i>
       </router-link>
       <i class="fas fa-credit-card fa-2x"></i>
-      <i class="fas fa-ellipsis-h fa-2x"></i>
+      <i class="fas fa-ellipsis-h fa-2x" @click="signOut"></i>
     </div>
   </footer>
 </template>
 
 <script>
+import {auth} from "@/api/firebase.api";
+
 export default {
   name: "Menu",
+  methods: {
+    signOut() {
+      auth.signOut().then(() => {
+        this.$router.push({name: 'login'});
+        location.reload();
+      });
+    },
+  },
   computed: {
     unreadMessages() {
       return this.$store.getters.numberOfUnreadMessages;

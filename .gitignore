@@ -27,4 +27,4 @@ pnpm-debug.log*
 .firebase
 
 # API Credentials
-/src/api/*.credentials.js
+# src/api/*.credentials.js

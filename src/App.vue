@@ -3,7 +3,7 @@
   <div id="main-content">
     <router-view/>
   </div>
-  <Menu/>
+  <Menu v-if="getAuth !== null"/>
 </template>
 
 <script>
@@ -15,6 +15,11 @@ export default {
   components: {
     Errors,
     Menu,
+  },
+  computed: {
+    getAuth() {
+      return this.$store.getters.getAuth;
+    }
   }
 };
 </script>

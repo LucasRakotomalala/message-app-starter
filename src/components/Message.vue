@@ -3,11 +3,11 @@
     <div class="card-body">
       <div class="media">
         <div class="avatar mr-3">
-          <img class="avatar-img" :src="message.sender.profileImage" alt="Profile Image">
+          <img class="avatar-img" :src="sender[0].profileImage" alt="Profile Image">
         </div>
         <div class="media-body overflow-hidden">
           <div class="d-flex align-items-center mb-auto">
-            <h5 class="text-truncate mr-auto">{{ message.sender.name }}</h5>
+            <h5 class="text-truncate mr-auto">{{ displayName }}</h5>
             <p class="small text-muted text-nowrap ml-4">
               {{ formatDate }}
             </p>
@@ -41,7 +41,13 @@ export default {
   computed: {
     formatDate() {
       return new Date(this.message.date).getHours() + ":" + String(new Date(this.message.date).getMinutes()).padStart(2, "0");
-},
+    },
+    sender() {
+      return this.$store.getters.getContactByUId(this.message.senderUId);
+    },
+    displayName() {
+      return this.sender[0].firstName + " " + this.sender[0].lastName;
+    },
   }
 }
 </script>

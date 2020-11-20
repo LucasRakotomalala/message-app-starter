@@ -5,6 +5,6 @@ import {faUserSecret} from '@fortawesome/free-solid-svg-icons'
 import {store} from "@/store/store";
 import router from "@/router/router";
 
-library.add(faUserSecret)
+library.add(faUserSecret);
 
-createApp(App).use(store).use(router).mount('#app')
+createApp(App).use(store).use(router).mount('#app');

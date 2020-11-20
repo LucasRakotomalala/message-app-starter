@@ -20,6 +20,7 @@ export default {
     Message
   },
   created() {
+    this.$store.dispatch("setContacts");
     this.$store.dispatch("setMessages");
   },
   methods: {
@@ -28,8 +29,12 @@ export default {
     }
   },
   computed: {
+    authId() {
+      return this.$store.getters.getAuth.uid;
+    },
     messages() {
       return this.$store.getters.sortMessagesByDate;
+      //return this.$store.getters.getConversations(this.authId);
     }
   }
 }

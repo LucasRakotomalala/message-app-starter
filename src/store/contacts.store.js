@@ -1,5 +1,4 @@
-import axios from "axios";
-import {contactsUrl} from "@/api/db";
+import {contactsRef} from "@/api/firebase.api";
 
 export const contactsModule = {
 	state: {
@@ -12,17 +11,22 @@ export const contactsModule = {
 	},
 	actions: {
 		async setContacts(context) {
-			try {
-				const response = await axios.get(contactsUrl);
-				context.commit("setContacts", {contacts: response.data});
-			} catch (error) {
+			await contactsRef.on("value", (snapshot) => {
+				context.commit("setContacts", {contacts: Object.values(snapshot.val())});
+			}, (error) => {
 				context.commit("pushError", {error: error.toString()});
-			}
+			});
 		}
 	},
 	getters: {
 		getContacts(state) {
 			return state.contacts;
+		},
+		getContactByUId: state => contactUId => {
+			return state.contacts.filter((contact) => contact.uId === contactUId);
+		},
+		getContactsUId(state) {
+			return {...state}.contacts.map(contact => contact.uId);
 		}
 	}
 };
